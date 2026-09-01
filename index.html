@@ -6,25 +6,27 @@
 <title>2026 한서고 1학년 수련회</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
 <style>
-/* iOS Style CSS Variables (Light Mode Default) */
+/* iOS Style CSS Variables (1학년 그린 테마) */
 :root {
-  --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  --bg-gradient: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
   --glass-bg: rgba(255, 255, 255, 0.65);
   --glass-border: rgba(255, 255, 255, 0.8);
-  --content-bg: rgba(255, 255, 255, 0.5);
-  --card-bg: rgba(255, 255, 255, 0.7);
+  --content-bg: rgba(255, 255, 255, 0.55);
+  --card-bg: rgba(255, 255, 255, 0.8);
   --segment-bg: rgba(118, 118, 128, 0.12);
   --segment-active: #ffffff;
   --text-main: #1d1d1f;
-  --text-sub: #86868b;
+  --text-sub: #6e6e73;
   --text-inverted: #ffffff;
-  --accent: #007aff;
+  --accent: #34c759; /* 1학년은 산뜻한 그린 톤 */
   --danger: #ff3b30;
-  --success: #34c759;
+  --warning: #ff9500;
+  --naver: #03c75a;
+  --google: #4285F4;
   --timeline-line: rgba(0, 0, 0, 0.1);
   --radius-lg: 24px;
   --radius-md: 18px;
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --shadow: 0 8px 32px rgba(52, 199, 89, 0.08);
 }
 
 /* iOS Dark Mode Auto Support */
@@ -39,10 +41,7 @@
     --segment-active: #636366;
     --text-main: #f5f5f7;
     --text-sub: #98989d;
-    --text-inverted: #ffffff;
-    --accent: #0a84ff;
-    --danger: #ff453a;
-    --success: #32d74b;
+    --accent: #32d74b;
     --timeline-line: rgba(255, 255, 255, 0.15);
     --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
@@ -58,30 +57,27 @@ body {
   padding-bottom: 80px;
   transition: background 0.3s ease, color 0.3s ease;
 }
+body.modal-open { overflow: hidden; } /* 모달 활성화 시 스크롤 방지 */
 
-/* Background gradient orbs */
 body::before {
   content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-  background: radial-gradient(circle at 50% 50%, rgba(0,122,255,0.05), transparent 60%),
-              radial-gradient(circle at 80% 20%, rgba(255,45,85,0.05), transparent 50%);
+  background: radial-gradient(circle at 20% 80%, rgba(52,199,89,0.05), transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(0,122,255,0.05), transparent 50%);
   z-index: -1; pointer-events: none;
 }
 
 .wrap { max-width: 600px; margin: 0 auto; padding: 0 16px; }
 
-/* Glassmorphism Header */
 header {
   position: sticky; top: 0; z-index: 50;
   background: var(--glass-bg);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--glass-border);
-  padding: 16px 20px; text-align: center;
-  transition: background 0.3s ease;
+  padding: 16px 20px 16px; text-align: center;
 }
-header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+header h1 { font-size: 19px; font-weight: 800; letter-spacing: -0.5px; }
 
-/* Glassmorphism Cards */
 .glass-card {
   background: var(--glass-bg);
   backdrop-filter: blur(16px) saturate(180%);
@@ -90,76 +86,70 @@ header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
   border-radius: var(--radius-lg);
   padding: 24px; margin-top: 20px;
   box-shadow: var(--shadow);
-  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .section-title { 
-  font-size: 22px; font-weight: 800; margin-bottom: 16px; 
+  font-size: 20px; font-weight: 800; margin-bottom: 16px; 
   letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px;
 }
 
-/* Info List */
 .info-list li { display: flex; flex-direction: column; margin-bottom: 14px; }
 .info-list li:last-child { margin-bottom: 0; }
 .info-list .label { font-size: 13px; color: var(--text-sub); font-weight: 600; margin-bottom: 4px; }
-.info-list .value { font-size: 16px; font-weight: 700; word-break: keep-all; line-height: 1.4; }
+.info-list .value { font-size: 15.5px; font-weight: 700; word-break: keep-all; line-height: 1.4; }
 
-/* iOS Segmented Control */
-.segmented-control {
+/* Timeline Segment Control */
+.day-segment {
   display: flex; background: var(--segment-bg);
   border-radius: 9px; padding: 2px; margin-bottom: 24px;
 }
-.segment-btn {
+.day-btn {
   flex: 1; padding: 8px 0; text-align: center; font-size: 14px; font-weight: 600;
   color: var(--text-main); border-radius: 7px; border: none; background: transparent;
   cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
-.segment-btn.active { 
-  background: var(--segment-active); 
-  box-shadow: 0 3px 8px rgba(0,0,0,0.12); 
-}
+.day-btn.active { background: var(--segment-active); box-shadow: 0 3px 8px rgba(0,0,0,0.12); color: var(--accent);}
 
 /* Timeline */
-.day-panel { display: none; animation: slideUp 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.day-panel { display: none; animation: fadeIn 0.3s ease; }
 .day-panel.active { display: block; }
-@keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-.timeline-item { display: flex; gap: 16px; margin-bottom: 20px; position: relative; }
+.timeline-item { display: flex; gap: 14px; margin-bottom: 20px; position: relative; }
 .timeline-item:last-child { margin-bottom: 0; }
-
-/* 타임라인 세로선 */
 .timeline-item::after {
-  content: ''; position: absolute; left: 52px; top: 24px; bottom: -20px;
+  content: ''; position: absolute; left: 58px; top: 24px; bottom: -20px;
   width: 2px; background: var(--timeline-line); border-radius: 1px;
 }
 .timeline-item:last-child::after { display: none; }
-
-/* 타임라인 포인트 닷(Dot) */
 .timeline-item::before {
-  content: ''; position: absolute; left: 49.5px; top: 10px;
+  content: ''; position: absolute; left: 55.5px; top: 10px;
   width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
   z-index: 2; box-shadow: 0 0 0 3px var(--bg-gradient);
 }
+.time { width: 55px; font-size: 13.5px; font-weight: 800; color: var(--accent); text-align: right; flex-shrink: 0; padding-top: 3px; }
+.content { flex: 1; background: var(--content-bg); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); }
+.content h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; word-break: keep-all; display: flex; justify-content: space-between; align-items: center; gap: 8px;}
+.content p { font-size: 13.5px; color: var(--text-sub); line-height: 1.4; word-break: keep-all; }
 
-.time { 
-  width: 50px; font-size: 14px; font-weight: 800; color: var(--accent); 
-  text-align: right; flex-shrink: 0; padding-top: 3px; 
+/* Buttons */
+.detail-btn {
+  background: var(--accent); color: white; border: none; padding: 4px 10px;
+  border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; flex-shrink: 0;
 }
-.content { 
-  flex: 1; background: var(--content-bg); padding: 14px 16px; 
-  border-radius: var(--radius-md); border: 1px solid var(--glass-border); 
+.detail-btn:active { opacity: 0.7; }
+
+/* Warning Box */
+.warning-box {
+  background: rgba(255,59,48,0.1); padding: 16px; border-radius: 16px; 
+  border: 1px solid rgba(255,59,48,0.2); margin-top: 20px;
 }
-.content h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; word-break: keep-all; }
-.content p { font-size: 14px; color: var(--text-sub); line-height: 1.4; word-break: keep-all; }
+.warning-box h4 { color: var(--danger); font-size: 15px; font-weight: 800; margin-bottom: 8px; }
+.warning-box ul { padding-left: 20px; color: var(--text-main); font-size: 14px; }
+.warning-box li { margin-bottom: 6px; font-weight: 500;}
+.warning-box li b { color: var(--danger); }
 
-/* Checklists */
-.check-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; font-size: 15px; }
-.check-item:last-child { margin-bottom: 0; }
-.check-item .icon { font-size: 18px; line-height: 1.2; flex-shrink: 0; }
-.check-item b { font-weight: 700; color: var(--text-main); display: block; margin-bottom: 2px;}
-.check-item span { color: var(--text-sub); font-size: 14px; line-height: 1.4; display: block; word-break: keep-all; }
-
-/* Action Buttons (Call / Map) */
+/* Contact Cards */
 .action-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
 .action-card {
   display: flex; justify-content: space-between; align-items: center;
@@ -167,17 +157,41 @@ header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
   border-radius: var(--radius-md); border: 1px solid var(--glass-border);
 }
 .action-card .info { flex: 1; padding-right: 12px; }
-.action-card .info h4 { font-size: 16px; font-weight: 700; word-break: keep-all; }
+.action-card .info h4 { font-size: 15px; font-weight: 700; word-break: keep-all; }
 .action-card .info p { font-size: 13px; color: var(--text-sub); margin-top: 4px; word-break: keep-all;}
-.btn-group { display: flex; gap: 8px; flex-shrink: 0; }
 .btn-circle {
   width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
   background: var(--accent); color: #ffffff; text-decoration: none; font-size: 18px; 
-  box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3); transition: transform 0.2s;
+  transition: transform 0.2s; flex-shrink: 0;
 }
 .btn-circle:active { transform: scale(0.92); }
-.btn-circle.danger { background: var(--danger); box-shadow: 0 4px 10px rgba(255, 59, 48, 0.3); color: #ffffff; }
-.btn-circle.map { background: var(--success); box-shadow: 0 4px 10px rgba(52, 199, 89, 0.3); font-size: 16px; color: #ffffff;}
+
+/* Modal (Popup) */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5);
+  display: flex; align-items: flex-end; justify-content: center; z-index: 100;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(4px);
+}
+.modal-overlay.open { opacity: 1; pointer-events: auto; }
+.modal-content {
+  background: var(--card-bg); backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  width: 100%; max-width: 600px; border-radius: 24px 24px 0 0;
+  padding: 30px 24px 40px; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.2); max-height: 85vh; overflow-y: auto;
+}
+.modal-overlay.open .modal-content { transform: translateY(0); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.modal-header h3 { font-size: 22px; font-weight: 800; color: var(--text-main); }
+.close-btn { background: rgba(118, 118, 128, 0.2); border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 18px; font-weight: bold; color: var(--text-main); cursor: pointer; }
+.modal-body { font-size: 15px; color: var(--text-main); line-height: 1.6; margin-bottom: 24px; word-break: keep-all;}
+.map-btn-group { display: flex; gap: 12px; }
+.map-btn {
+  flex: 1; padding: 12px 0; border-radius: 12px; font-weight: 700; font-size: 14.5px;
+  text-align: center; text-decoration: none; color: white; display: flex; justify-content: center; align-items: center; gap: 6px;
+}
+.map-btn.naver { background: var(--naver); }
+.map-btn.google { background: var(--google); }
 
 footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text-sub); }
 </style>
@@ -185,43 +199,47 @@ footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text
 <body>
 
 <header>
-  <h1>2026 한서고 1학년 수련회</h1>
+  <h1>2026 한서고 1학년 수련회 안내</h1>
 </header>
 
 <main class="wrap">
-  <!-- 개요 정보 -->
+  <!-- 1. 기본 정보 -->
   <div class="glass-card">
     <div class="section-title">📌 수련회 개요</div>
     <ul class="info-list">
       <li><span class="label">일시</span><span class="value">2026. 09. 07.(월) ~ 09. 09.(수) / 2박 3일</span></li>
       <li>
-        <span class="label">장소</span>
+        <span class="label">출발 안내 (1일차)</span>
+        <span class="value" style="color:var(--danger);">오전 08:00 교실 집합 (출석 및 소지품 확인)</span>
+      </li>
+      <li>
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span class="value">용평리조트 블리스힐스테이<br><span style="font-size:13.5px; font-weight:500; color:var(--text-sub);">강원 평창군 대관령면 올림픽로 715</span></span>
-            <a href="https://map.naver.com/p/search/%EC%9A%A9%ED%8F%89%EB%A6%AC%EC%A1%B0%ED%8A%B8%20%EB%B8%94%EB%A6%AC%EC%8A%A4%ED%9E%90%EC%8A%A4%ED%85%8C%EC%9D%B4" target="_blank" class="btn-circle map" style="flex-shrink: 0; margin-left: 12px;">🗺️</a>
+          <div>
+            <span class="label">숙소 (사전답사 완료)</span>
+            <span class="value">용평리조트 블리스힐스테이<br><span style="font-size:13px; font-weight:500; color:var(--text-sub);">강원 평창군 대관령면 올림픽로 715</span></span>
+          </div>
+          <button class="detail-btn" onclick="openModal('용평리조트 블리스힐스테이', '<b>객실정보:</b> 6~7인 1실로 배정되며, 샤워실과 화장실이 분리되어 있어 학생들이 사용하기 편리합니다.<br><br><b>식당(뷔페):</b> 철저한 위생 기준(HACCP)을 준수한 식당에서 식사를 진행합니다.<br><br><b>주의사항:</b> 숙소 내 <b>냉장고 및 온수(식수) 시설이 없으므로</b> 냉장/냉동 식품 및 컵라면 등 조리식품 반입이 절대 금지됩니다.')" style="padding: 6px 12px;">자세히</button>
         </div>
       </li>
-      <li><span class="label">숙소 및 식당 (사전답사 완료)</span><span class="value" style="font-size: 14.5px; font-weight: 500;">샤워실/화장실 분리형 (6~7인 1실), 뷔페식 (HACCP 통과)</span></li>
-      <li><span class="label">출발 안내 (1일차)</span><span class="value" style="color:var(--danger);">08:00 교실 집합 (출석 및 소지품 확인) → 09:00 출발</span></li>
     </ul>
   </div>
 
-  <!-- 세부 일정 -->
+  <!-- 2. 관광 일정 -->
   <div class="glass-card">
     <div class="section-title">🗓 일별 프로그램</div>
     
-    <div class="segmented-control">
-      <button class="segment-btn active" data-day="1">1일차</button>
-      <button class="segment-btn" data-day="2">2일차</button>
-      <button class="segment-btn" data-day="3">3일차</button>
+    <div class="day-segment">
+      <button class="day-btn active" data-day="1">1일차</button>
+      <button class="day-btn" data-day="2">2일차</button>
+      <button class="day-btn" data-day="3">3일차</button>
     </div>
 
     <!-- 1일차 -->
     <div class="day-panel active" data-panel="1">
       <div class="timeline-item"><div class="time">08:00</div><div class="content"><h4>학교에 집합</h4><p>교실 집합, 출석 및 소지품 확인</p></div></div>
-      <div class="timeline-item"><div class="time">09:00</div><div class="content"><h4>모나용평으로 출발</h4></div></div>
+      <div class="timeline-item"><div class="time">09:00</div><div class="content"><h4>출발</h4><p>모나용평으로 출발</p></div></div>
       <div class="timeline-item"><div class="time">12:00</div><div class="content"><h4>점심식사 및 도착</h4></div></div>
-      <div class="timeline-item"><div class="time">13:00</div><div class="content"><h4>Program Orientation</h4><p>입소식, 안전교육, 소방대피훈련</p></div></div>
+      <div class="timeline-item"><div class="time">13:00</div><div class="content"><h4>오리엔테이션</h4><p>입소식, 안전교육, 소방대피훈련</p></div></div>
       <div class="timeline-item"><div class="time">15:00</div><div class="content"><h4>[나]를 이해하는 시간</h4><p>Team Demonstration (공동체 활동)</p></div></div>
       <div class="timeline-item"><div class="time">18:00</div><div class="content"><h4>저녁식사</h4></div></div>
       <div class="timeline-item"><div class="time">19:00</div><div class="content"><h4>[모]여서 배우는 시간</h4><p>관계형성 프로그램 (실내)</p></div></div>
@@ -235,7 +253,9 @@ footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text
       <div class="timeline-item"><div class="time">08:00</div><div class="content"><h4>아침식사</h4></div></div>
       <div class="timeline-item"><div class="time">09:00</div><div class="content"><h4>우리만의 수련활동</h4><p>미니 올림픽 (실내)</p></div></div>
       <div class="timeline-item"><div class="time">12:00</div><div class="content"><h4>점심식사</h4></div></div>
-      <div class="timeline-item"><div class="time">14:00</div><div class="content"><h4>[용]기 내 도전하는 순간</h4><p>용평 루지, 사계절 썰매, 마운틴코스터 (실외)</p></div></div>
+      <div class="timeline-item"><div class="time">14:00</div><div class="content">
+        <h4>야외 액티비티 <button class="detail-btn" onclick="openModal('용평리조트 액티비티', '<b>용평 루지:</b> 1,458m 코스를 카트를 타고 질주합니다.<br><b>사계절 썰매:</b> 무빙워크를 이용해 튜브를 타고 내려옵니다.<br><b>마운틴코스터:</b> 급경사를 빠른 속도로 내려옵니다.<br><br><b>🚨 필수 사항:</b> 액티비티 활동 시 찰과상 등 다칠 위험이 있으므로 반드시 <b>긴팔, 긴바지</b>를 착용해야 합니다.')">자세히</button></h4>
+      </div></div>
       <div class="timeline-item"><div class="time">18:00</div><div class="content"><h4>저녁식사</h4></div></div>
       <div class="timeline-item"><div class="time">19:00</div><div class="content"><h4>Spark Collective</h4><p>레크리에이션 및 장기자랑</p></div></div>
       <div class="timeline-item"><div class="time">22:00</div><div class="content"><h4>취침</h4></div></div>
@@ -245,59 +265,59 @@ footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text
     <div class="day-panel" data-panel="3">
       <div class="timeline-item"><div class="time">07:00</div><div class="content"><h4>기상 및 세면</h4></div></div>
       <div class="timeline-item"><div class="time">08:00</div><div class="content"><h4>아침식사</h4></div></div>
-      <div class="timeline-item"><div class="time">09:00</div><div class="content"><h4>발왕산 서밋랜드</h4><p>케이블카, 스카이워크, 천년 주목길 관광</p></div></div>
-      <div class="timeline-item"><div class="time">12:00</div><div class="content"><h4>퇴소식 및 설문지 작성</h4></div></div>
-      <div class="timeline-item"><div class="time">13:00</div><div class="content"><h4>점심식사</h4></div></div>
-      <div class="timeline-item"><div class="time">14:00</div><div class="content"><h4>집으로 귀가</h4></div></div>
+      <div class="timeline-item"><div class="time">09:00</div><div class="content">
+        <h4>발왕산 서밋랜드 <button class="detail-btn" onclick="openModal('발왕산 서밋랜드', '<b>발왕산 스카이워크:</b> 우리나라에서 가장 높은 해발 1,458m에 세워진 스카이워크입니다.<br><b>관광 케이블카:</b> 왕복 7.4km 국내 최장 길이 8인승 케빈을 탑승합니다.<br><b>천년 주목길:</b> 수령 1,800년의 신성한 주목 군락 숲길을 탐방합니다.')">자세히</button></h4>
+      </div></div>
+      <div class="timeline-item"><div class="time">12:00</div><div class="content"><h4>퇴소식 및 점심식사</h4></div></div>
+      <div class="timeline-item"><div class="time">13:00</div><div class="content"><h4>집으로 귀가</h4><p>버스 탑승 및 이동</p></div></div>
     </div>
   </div>
 
-  <!-- 준비물 -->
-  <div class="glass-card">
-    <div class="section-title">🎒 준비물 및 유의사항</div>
-    <div style="background: rgba(255,59,48,0.1); padding: 14px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,59,48,0.2);">
-      <p style="font-size: 13.5px; color: var(--danger); font-weight: 700; word-break: keep-all; line-height: 1.4;">※ 숙소 내 냉장고 및 식수 온수 없음. 컵라면 등 조리식품 절대 불가.</p>
-    </div>
-    
-    <h4 style="margin-bottom: 14px; font-weight: 800; font-size: 16px;">✅ 필수 준비 품목</h4>
-    <div class="check-item"><span class="icon">💊</span><div><b>개인상비약</b><span>멀미약, 알러지약 등</span></div></div>
-    <div class="check-item"><span class="icon">👕</span><div><b>실외 활동복</b><span>루지 탑승 등 안전을 위한 긴팔, 긴바지 필수</span></div></div>
-    <div class="check-item"><span class="icon">🧻</span><div><b>세면도구 및 수건</b><span>샴푸, 린스, 바디워시, 칫솔, 치약, 수건 넉넉히</span></div></div>
-    <div class="check-item"><span class="icon">🧦</span><div><b>기타 의류</b><span>속옷, 양말, 잠옷, 방한복(바람막이), 여벌옷</span></div></div>
-
-    <h4 style="margin-top: 24px; margin-bottom: 14px; font-weight: 800; font-size: 16px;">🚫 지참 금지 품목</h4>
-    <div class="check-item"><span class="icon">❌</span><div><b>고가 물품 및 위험 물품</b><span>에어팟, 태블릿, 노트북(분실 위험), 주류, 담배, 화투/카드(도박성), 커피포트</span></div></div>
+  <!-- 3. 준비물 규정 -->
+  <div class="warning-box">
+    <h4>🎒 필수 및 금지 품목 안내</h4>
+    <ul>
+      <li><b>필수 준비:</b> 개인상비약(멀미약, 알러지약 등), 긴팔 및 긴바지(액티비티 필수), 세면도구(샴푸, 린스, 바디워시 등), 수건, 여벌옷, 속옷 등</li>
+      <li><b>지참 금지:</b> 에어팟/태블릿/노트북(고가물품), 커피포트, 화투/카드(도박성), 주류 및 담배 <b>절대 불가</b></li>
+      <li><b>숙소 규칙:</b> 컵라면 등 조리식품 불가 (숙소 내 온수 없음)</li>
+    </ul>
   </div>
 
-  <!-- 비상 연락망 -->
+  <!-- 4. 연락처 -->
   <div class="glass-card">
-    <div class="section-title">🚨 응급 대처 및 연락망</div>
-    <p style="font-size: 14px; color: var(--text-sub); margin-bottom: 20px; word-break: keep-all;">
-      의무실 처치 후 병원 진료 필요시 담임 교사 동반 하에 이송됩니다.<br>
-      <span style="font-size: 13px;">(단, 2일차 야간 응급 시 원내 지도 관계로 학부모 동행 필수)</span>
+    <div class="section-title">🚨 비상 연락망 및 병원</div>
+    <p style="font-size: 13.5px; color: var(--text-sub); margin-bottom: 20px; word-break: keep-all;">
+      병원 진료 필요시 담임 교사 동반 하에 이송됩니다. (단, 2일차 야간 응급 시 원내 학생 지도 관계로 학부모 동행 필수)
     </p>
 
     <div class="action-grid">
       <div class="action-card">
-        <div class="info"><h4>[주간] 횡계의원</h4><p>5.9km / 10분 소요 (경미한 환자)</p></div>
-        <div class="btn-group">
-          <a href="https://map.naver.com/p/search/%ED%9A%A1%EA%B3%84%EC%9D%98%EC%9B%90" target="_blank" class="btn-circle map">🗺️</a>
-          <a href="tel:0333368052" class="btn-circle danger">📞</a>
+        <div class="info">
+          <h4>[주간] 횡계의원</h4><p>경미한 환자 발생 시 이동 (5.9km)</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <button class="detail-btn" onclick="openModal('횡계의원', '<b>거리 및 소요시간:</b> 숙소에서 5.9km 거리, 차량으로 약 10분 소요.<br>주간에 발생하는 경미한 외상 및 질환 발생 시 담임교사 동행 하에 이동합니다.')" style="border-radius: 50%; width: 40px; height: 40px; font-size: 14px; padding:0;">📍</button>
+            <a href="tel:0333368052" class="btn-circle" style="background:var(--danger);">📞</a>
         </div>
       </div>
+      
       <div class="action-card">
-        <div class="info"><h4>[야간] 강릉동인병원</h4><p>45.2km / 45분 소요 (야간 응급)</p></div>
-        <div class="btn-group">
-          <a href="https://map.naver.com/p/search/%EA%B0%95%EB%A6%89%EB%8F%99%EC%9D%B8%EB%B3%91%EC%9B%90" target="_blank" class="btn-circle map">🗺️</a>
-          <a href="tel:0336516161" class="btn-circle danger">📞</a>
+        <div class="info">
+          <h4>[야간] 강릉동인병원</h4><p>응급 환자 발생 시 이동 (45.2km)</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <button class="detail-btn" onclick="openModal('강릉동인병원', '<b>거리 및 소요시간:</b> 숙소에서 45.2km 거리, 차량으로 약 45분 소요.<br>야간에 발생하는 심각한 응급 환자 발생 시 이동하며, 학부모 동반이 필요할 수 있습니다.')" style="border-radius: 50%; width: 40px; height: 40px; font-size: 14px; padding:0;">📍</button>
+            <a href="tel:0336516161" class="btn-circle" style="background:var(--danger);">📞</a>
         </div>
       </div>
+
       <div class="action-card">
         <div class="info"><h4>숙소 (블리스힐스테이)</h4><p>033-335-5757</p></div>
-        <div class="btn-group">
-          <a href="https://map.naver.com/p/search/%EC%9A%A9%ED%8F%89%EB%A6%AC%EC%A1%B0%ED%8A%B8%20%EB%B8%94%EB%A6%AC%EC%8A%A4%ED%9E%90%EC%8A%A4%ED%85%8C%EC%9D%B4" target="_blank" class="btn-circle map">🗺️</a>
-          <a href="tel:0333355757" class="btn-circle">📞</a>
-        </div>
+        <a href="tel:0333355757" class="btn-circle">📞</a>
+      </div>
+      <div class="action-card">
+        <div class="info"><h4>한서고 교무실</h4><p>02-2662-0021</p></div>
+        <a href="tel:0226620021" class="btn-circle">📞</a>
       </div>
     </div>
   </div>
@@ -307,20 +327,64 @@ footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text
   </footer>
 </main>
 
-<script>
-  const btns = document.querySelectorAll('.segment-btn');
-  const panels = document.querySelectorAll('.day-panel');
+<!-- 자세히 보기 & 지도 모달 -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">장소명</h3>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalDesc">
+      설명 내용이 들어갑니다.
+    </div>
+    <div class="map-btn-group">
+      <a href="#" target="_blank" class="map-btn naver" id="naverLink">✅ 네이버 지도</a>
+      <a href="#" target="_blank" class="map-btn google" id="googleLink">🗺️ 구글 지도</a>
+    </div>
+  </div>
+</div>
 
-  btns.forEach(btn => {
+<script>
+  // 타임라인 일차 전환 로직
+  const dayBtns = document.querySelectorAll('.day-btn');
+  const dayPanels = document.querySelectorAll('.day-panel');
+
+  dayBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // 모든 버튼과 패널의 활성화 상태 제거
-      btns.forEach(b => b.classList.remove('active'));
-      panels.forEach(p => p.classList.remove('active'));
+      dayBtns.forEach(b => b.classList.remove('active'));
+      dayPanels.forEach(p => p.classList.remove('active'));
       
-      // 클릭한 버튼과 해당하는 패널 활성화
       btn.classList.add('active');
       document.querySelector(`.day-panel[data-panel="${btn.dataset.day}"]`).classList.add('active');
     });
+  });
+
+  // 팝업 모달 로직 (스크롤 방지 포함)
+  function openModal(title, desc) {
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('modalDesc').innerHTML = desc;
+    
+    // 자동 지도 검색 링크 생성 (병원의 경우 구체적인 이름으로 검색)
+    let queryTitle = title;
+    if (title === '용평리조트 액티비티') queryTitle = '용평리조트';
+    
+    const query = encodeURIComponent(queryTitle);
+    
+    document.getElementById('naverLink').href = `https://map.naver.com/p/search/${query}`;
+    document.getElementById('googleLink').href = `https://www.google.com/maps/search/?api=1&query=${query}`;
+    
+    document.getElementById('detailModal').classList.add('open');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeModal() {
+    document.getElementById('detailModal').classList.remove('open');
+    document.body.classList.remove('modal-open');
+  }
+
+  // 모달 바깥(어두운 배경) 클릭 시 닫기
+  document.getElementById('detailModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
   });
 </script>
 </body>
