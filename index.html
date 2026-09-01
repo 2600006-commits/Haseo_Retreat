@@ -6,19 +6,46 @@
 <title>2026 한서고 1학년 수련회</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
 <style>
-/* iOS Style CSS Variables */
+/* iOS Style CSS Variables (Light Mode Default) */
 :root {
   --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
   --glass-bg: rgba(255, 255, 255, 0.65);
   --glass-border: rgba(255, 255, 255, 0.8);
+  --content-bg: rgba(255, 255, 255, 0.5);
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --segment-bg: rgba(118, 118, 128, 0.12);
+  --segment-active: #ffffff;
   --text-main: #1d1d1f;
   --text-sub: #86868b;
+  --text-inverted: #ffffff;
   --accent: #007aff;
   --danger: #ff3b30;
-  --success: #34c759; /* 지도 버튼용 초록색 */
+  --success: #34c759;
+  --timeline-line: rgba(0, 0, 0, 0.1);
   --radius-lg: 24px;
   --radius-md: 18px;
   --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* iOS Dark Mode Auto Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-gradient: linear-gradient(135deg, #1c1c1e 0%, #000000 100%);
+    --glass-bg: rgba(44, 44, 46, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --content-bg: rgba(44, 44, 46, 0.5);
+    --card-bg: rgba(60, 60, 64, 0.6);
+    --segment-bg: rgba(118, 118, 128, 0.24);
+    --segment-active: #636366;
+    --text-main: #f5f5f7;
+    --text-sub: #98989d;
+    --text-inverted: #ffffff;
+    --accent: #0a84ff;
+    --danger: #ff453a;
+    --success: #32d74b;
+    --timeline-line: rgba(255, 255, 255, 0.15);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -29,7 +56,10 @@ body {
   color: var(--text-main);
   line-height: 1.5;
   padding-bottom: 80px;
+  transition: background 0.3s ease, color 0.3s ease;
 }
+
+/* Background gradient orbs */
 body::before {
   content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
   background: radial-gradient(circle at 50% 50%, rgba(0,122,255,0.05), transparent 60%),
@@ -42,11 +72,12 @@ body::before {
 /* Glassmorphism Header */
 header {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(255, 255, 255, 0.4);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--glass-border);
   padding: 16px 20px; text-align: center;
+  transition: background 0.3s ease;
 }
 header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
 
@@ -59,67 +90,94 @@ header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
   border-radius: var(--radius-lg);
   padding: 24px; margin-top: 20px;
   box-shadow: var(--shadow);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
-.section-title { font-size: 22px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px;}
+.section-title { 
+  font-size: 22px; font-weight: 800; margin-bottom: 16px; 
+  letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px;
+}
 
 /* Info List */
-.info-list li { display: flex; flex-direction: column; margin-bottom: 12px; }
+.info-list li { display: flex; flex-direction: column; margin-bottom: 14px; }
 .info-list li:last-child { margin-bottom: 0; }
-.info-list .label { font-size: 13px; color: var(--text-sub); font-weight: 600; margin-bottom: 2px; }
-.info-list .value { font-size: 16px; font-weight: 700; }
+.info-list .label { font-size: 13px; color: var(--text-sub); font-weight: 600; margin-bottom: 4px; }
+.info-list .value { font-size: 16px; font-weight: 700; word-break: keep-all; line-height: 1.4; }
 
-/* iOS Segmented Control for Schedule */
+/* iOS Segmented Control */
 .segmented-control {
-  display: flex; background: rgba(118, 118, 128, 0.12);
-  border-radius: 9px; padding: 2px; margin-bottom: 20px;
+  display: flex; background: var(--segment-bg);
+  border-radius: 9px; padding: 2px; margin-bottom: 24px;
 }
 .segment-btn {
-  flex: 1; padding: 6px 0; text-align: center; font-size: 14px; font-weight: 600;
+  flex: 1; padding: 8px 0; text-align: center; font-size: 14px; font-weight: 600;
   color: var(--text-main); border-radius: 7px; border: none; background: transparent;
-  cursor: pointer; transition: background 0.2s, box-shadow 0.2s;
+  cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
-.segment-btn.active { background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,0.12); }
+.segment-btn.active { 
+  background: var(--segment-active); 
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12); 
+}
 
 /* Timeline */
-.day-panel { display: none; animation: slideUp 0.3s ease; }
+.day-panel { display: none; animation: slideUp 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
 .day-panel.active { display: block; }
-@keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
 .timeline-item { display: flex; gap: 16px; margin-bottom: 20px; position: relative; }
 .timeline-item:last-child { margin-bottom: 0; }
+
+/* 타임라인 세로선 */
 .timeline-item::after {
-  content: ''; position: absolute; left: 47px; top: 24px; bottom: -20px;
-  width: 1px; background: rgba(0,0,0,0.1);
+  content: ''; position: absolute; left: 52px; top: 24px; bottom: -20px;
+  width: 2px; background: var(--timeline-line); border-radius: 1px;
 }
 .timeline-item:last-child::after { display: none; }
-.time { width: 45px; font-size: 14px; font-weight: 700; color: var(--accent); text-align: right; flex-shrink: 0; padding-top: 2px; }
-.content { flex: 1; background: rgba(255,255,255,0.5); padding: 12px 16px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); }
-.content h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-.content p { font-size: 14px; color: var(--text-sub); }
+
+/* 타임라인 포인트 닷(Dot) */
+.timeline-item::before {
+  content: ''; position: absolute; left: 49.5px; top: 10px;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+  z-index: 2; box-shadow: 0 0 0 3px var(--bg-gradient);
+}
+
+.time { 
+  width: 50px; font-size: 14px; font-weight: 800; color: var(--accent); 
+  text-align: right; flex-shrink: 0; padding-top: 3px; 
+}
+.content { 
+  flex: 1; background: var(--content-bg); padding: 14px 16px; 
+  border-radius: var(--radius-md); border: 1px solid var(--glass-border); 
+}
+.content h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; word-break: keep-all; }
+.content p { font-size: 14px; color: var(--text-sub); line-height: 1.4; word-break: keep-all; }
 
 /* Checklists */
-.check-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: 15px; }
-.check-item .icon { font-size: 18px; line-height: 1.2; }
-.check-item b { font-weight: 700; color: var(--text-main); }
-.check-item span { color: var(--text-sub); }
+.check-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; font-size: 15px; }
+.check-item:last-child { margin-bottom: 0; }
+.check-item .icon { font-size: 18px; line-height: 1.2; flex-shrink: 0; }
+.check-item b { font-weight: 700; color: var(--text-main); display: block; margin-bottom: 2px;}
+.check-item span { color: var(--text-sub); font-size: 14px; line-height: 1.4; display: block; word-break: keep-all; }
 
 /* Action Buttons (Call / Map) */
 .action-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
 .action-card {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 16px; background: rgba(255,255,255,0.7);
+  padding: 16px; background: var(--card-bg);
   border-radius: var(--radius-md); border: 1px solid var(--glass-border);
 }
-.action-card .info h4 { font-size: 16px; font-weight: 700; }
-.action-card .info p { font-size: 13px; color: var(--text-sub); margin-top: 2px; }
-.btn-group { display: flex; gap: 8px; }
+.action-card .info { flex: 1; padding-right: 12px; }
+.action-card .info h4 { font-size: 16px; font-weight: 700; word-break: keep-all; }
+.action-card .info p { font-size: 13px; color: var(--text-sub); margin-top: 4px; word-break: keep-all;}
+.btn-group { display: flex; gap: 8px; flex-shrink: 0; }
 .btn-circle {
   width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  background: var(--accent); color: #fff; text-decoration: none; font-size: 18px; box-shadow: 0 4px 10px rgba(0,122,255,0.3);
+  background: var(--accent); color: #ffffff; text-decoration: none; font-size: 18px; 
+  box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3); transition: transform 0.2s;
 }
-.btn-circle.danger { background: var(--danger); box-shadow: 0 4px 10px rgba(255,59,48,0.3); }
-.btn-circle.map { background: var(--success); box-shadow: 0 4px 10px rgba(52,199,89,0.3); font-size: 16px;}
+.btn-circle:active { transform: scale(0.92); }
+.btn-circle.danger { background: var(--danger); box-shadow: 0 4px 10px rgba(255, 59, 48, 0.3); color: #ffffff; }
+.btn-circle.map { background: var(--success); box-shadow: 0 4px 10px rgba(52, 199, 89, 0.3); font-size: 16px; color: #ffffff;}
 
 footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text-sub); }
 </style>
@@ -139,12 +197,11 @@ footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text
       <li>
         <span class="label">장소</span>
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span class="value">용평리조트 블리스힐스테이<br><span style="font-size:13px; font-weight:500; color:var(--text-sub);">강원 평창군 대관령면 올림픽로 715</span></span>
-            <!-- 숙소 지도 링크 추가 -->
-            <a href="https://map.naver.com/p/search/%EC%9A%A9%ED%8F%89%EB%A6%AC%EC%A1%B0%ED%8A%B8%20%EB%B8%94%EB%A6%AC%EC%8A%A4%ED%9E%90%EC%8A%A4%ED%85%8C%EC%9D%B4" target="_blank" class="btn-circle map" style="width: 36px; height: 36px;">🗺️</a>
+            <span class="value">용평리조트 블리스힐스테이<br><span style="font-size:13.5px; font-weight:500; color:var(--text-sub);">강원 평창군 대관령면 올림픽로 715</span></span>
+            <a href="https://map.naver.com/p/search/%EC%9A%A9%ED%8F%89%EB%A6%AC%EC%A1%B0%ED%8A%B8%20%EB%B8%94%EB%A6%AC%EC%8A%A4%ED%9E%90%EC%8A%A4%ED%85%8C%EC%9D%B4" target="_blank" class="btn-circle map" style="flex-shrink: 0; margin-left: 12px;">🗺️</a>
         </div>
       </li>
-      <li><span class="label">숙소 및 식당 (사전답사 완료)</span><span class="value" style="font-size: 14px; font-weight: 500;">샤워실/화장실 분리형 (6~7인 1실), 뷔페식 (HACCP 통과)</span></li>
+      <li><span class="label">숙소 및 식당 (사전답사 완료)</span><span class="value" style="font-size: 14.5px; font-weight: 500;">샤워실/화장실 분리형 (6~7인 1실), 뷔페식 (HACCP 통과)</span></li>
       <li><span class="label">출발 안내 (1일차)</span><span class="value" style="color:var(--danger);">08:00 교실 집합 (출석 및 소지품 확인) → 09:00 출발</span></li>
     </ul>
   </div>
@@ -198,33 +255,32 @@ footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text
   <!-- 준비물 -->
   <div class="glass-card">
     <div class="section-title">🎒 준비물 및 유의사항</div>
-    <div style="background: rgba(255,59,48,0.1); padding: 12px; border-radius: 12px; margin-bottom: 16px;">
-      <p style="font-size: 13px; color: var(--danger); font-weight: 600;">※ 숙소 내 냉장고 및 식수 온수 없음. 컵라면 등 조리식품 절대 불가.</p>
+    <div style="background: rgba(255,59,48,0.1); padding: 14px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,59,48,0.2);">
+      <p style="font-size: 13.5px; color: var(--danger); font-weight: 700; word-break: keep-all; line-height: 1.4;">※ 숙소 내 냉장고 및 식수 온수 없음. 컵라면 등 조리식품 절대 불가.</p>
     </div>
     
-    <h4 style="margin-bottom: 12px; font-weight: 700;">✅ 필수 준비 품목</h4>
-    <div class="check-item"><span class="icon">💊</span><div><b>개인상비약</b><br><span>멀미약, 알러지약 등</span></div></div>
-    <div class="check-item"><span class="icon">👕</span><div><b>실외 활동복</b><br><span>루지 탑승 등 안전을 위한 긴팔, 긴바지 필수</span></div></div>
-    <div class="check-item"><span class="icon">🧻</span><div><b>세면도구 및 수건</b><br><span>샴푸, 린스, 바디워시, 칫솔, 치약, 수건 넉넉히</span></div></div>
-    <div class="check-item"><span class="icon">🧦</span><div><b>기타 의류</b><br><span>속옷, 양말, 잠옷, 방한복(바람막이), 여벌옷</span></div></div>
+    <h4 style="margin-bottom: 14px; font-weight: 800; font-size: 16px;">✅ 필수 준비 품목</h4>
+    <div class="check-item"><span class="icon">💊</span><div><b>개인상비약</b><span>멀미약, 알러지약 등</span></div></div>
+    <div class="check-item"><span class="icon">👕</span><div><b>실외 활동복</b><span>루지 탑승 등 안전을 위한 긴팔, 긴바지 필수</span></div></div>
+    <div class="check-item"><span class="icon">🧻</span><div><b>세면도구 및 수건</b><span>샴푸, 린스, 바디워시, 칫솔, 치약, 수건 넉넉히</span></div></div>
+    <div class="check-item"><span class="icon">🧦</span><div><b>기타 의류</b><span>속옷, 양말, 잠옷, 방한복(바람막이), 여벌옷</span></div></div>
 
-    <h4 style="margin-top: 20px; margin-bottom: 12px; font-weight: 700;">🚫 지참 금지 품목</h4>
-    <div class="check-item"><span class="icon">❌</span><div><b>고가 물품 및 위험 물품</b><br><span>에어팟, 태블릿, 노트북(분실 위험), 주류, 담배, 화투/카드(도박성), 커피포트</span></div></div>
+    <h4 style="margin-top: 24px; margin-bottom: 14px; font-weight: 800; font-size: 16px;">🚫 지참 금지 품목</h4>
+    <div class="check-item"><span class="icon">❌</span><div><b>고가 물품 및 위험 물품</b><span>에어팟, 태블릿, 노트북(분실 위험), 주류, 담배, 화투/카드(도박성), 커피포트</span></div></div>
   </div>
 
   <!-- 비상 연락망 -->
   <div class="glass-card">
     <div class="section-title">🚨 응급 대처 및 연락망</div>
-    <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 16px;">
+    <p style="font-size: 14px; color: var(--text-sub); margin-bottom: 20px; word-break: keep-all;">
       의무실 처치 후 병원 진료 필요시 담임 교사 동반 하에 이송됩니다.<br>
-      (단, 2일차 야간 응급 시 원내 지도 관계로 학부모 동행 필수)
+      <span style="font-size: 13px;">(단, 2일차 야간 응급 시 원내 지도 관계로 학부모 동행 필수)</span>
     </p>
 
     <div class="action-grid">
       <div class="action-card">
         <div class="info"><h4>[주간] 횡계의원</h4><p>5.9km / 10분 소요 (경미한 환자)</p></div>
         <div class="btn-group">
-          <!-- 병원 지도 링크 추가 -->
           <a href="https://map.naver.com/p/search/%ED%9A%A1%EA%B3%84%EC%9D%98%EC%9B%90" target="_blank" class="btn-circle map">🗺️</a>
           <a href="tel:0333368052" class="btn-circle danger">📞</a>
         </div>
@@ -232,7 +288,6 @@ footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text
       <div class="action-card">
         <div class="info"><h4>[야간] 강릉동인병원</h4><p>45.2km / 45분 소요 (야간 응급)</p></div>
         <div class="btn-group">
-          <!-- 병원 지도 링크 추가 -->
           <a href="https://map.naver.com/p/search/%EA%B0%95%EB%A6%89%EB%8F%99%EC%9D%B8%EB%B3%91%EC%9B%90" target="_blank" class="btn-circle map">🗺️</a>
           <a href="tel:0336516161" class="btn-circle danger">📞</a>
         </div>
@@ -240,7 +295,6 @@ footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text
       <div class="action-card">
         <div class="info"><h4>숙소 (블리스힐스테이)</h4><p>033-335-5757</p></div>
         <div class="btn-group">
-          <!-- 숙소 전화 및 지도 버튼 -->
           <a href="https://map.naver.com/p/search/%EC%9A%A9%ED%8F%89%EB%A6%AC%EC%A1%B0%ED%8A%B8%20%EB%B8%94%EB%A6%AC%EC%8A%A4%ED%9E%90%EC%8A%A4%ED%85%8C%EC%9D%B4" target="_blank" class="btn-circle map">🗺️</a>
           <a href="tel:0333355757" class="btn-circle">📞</a>
         </div>
@@ -259,9 +313,11 @@ footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text
 
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
+      // 모든 버튼과 패널의 활성화 상태 제거
       btns.forEach(b => b.classList.remove('active'));
       panels.forEach(p => p.classList.remove('active'));
       
+      // 클릭한 버튼과 해당하는 패널 활성화
       btn.classList.add('active');
       document.querySelector(`.day-panel[data-panel="${btn.dataset.day}"]`).classList.add('active');
     });
