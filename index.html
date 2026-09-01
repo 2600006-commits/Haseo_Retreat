@@ -15,6 +15,7 @@
   --text-sub: #86868b;
   --accent: #007aff;
   --danger: #ff3b30;
+  --success: #34c759; /* 지도 버튼용 초록색 */
   --radius-lg: 24px;
   --radius-md: 18px;
   --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
@@ -112,11 +113,13 @@ header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
 }
 .action-card .info h4 { font-size: 16px; font-weight: 700; }
 .action-card .info p { font-size: 13px; color: var(--text-sub); margin-top: 2px; }
+.btn-group { display: flex; gap: 8px; }
 .btn-circle {
   width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
   background: var(--accent); color: #fff; text-decoration: none; font-size: 18px; box-shadow: 0 4px 10px rgba(0,122,255,0.3);
 }
 .btn-circle.danger { background: var(--danger); box-shadow: 0 4px 10px rgba(255,59,48,0.3); }
+.btn-circle.map { background: var(--success); box-shadow: 0 4px 10px rgba(52,199,89,0.3); font-size: 16px;}
 
 footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text-sub); }
 </style>
@@ -133,7 +136,14 @@ footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text
     <div class="section-title">📌 수련회 개요</div>
     <ul class="info-list">
       <li><span class="label">일시</span><span class="value">2026. 09. 07.(월) ~ 09. 09.(수) / 2박 3일</span></li>
-      <li><span class="label">장소</span><span class="value">용평리조트 블리스힐스테이<br><span style="font-size:13px; font-weight:500; color:var(--text-sub);">강원 평창군 대관령면 올림픽로 715</span></span></li>
+      <li>
+        <span class="label">장소</span>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="value">용평리조트 블리스힐스테이<br><span style="font-size:13px; font-weight:500; color:var(--text-sub);">강원 평창군 대관령면 올림픽로 715</span></span>
+            <!-- 숙소 지도 링크 추가 -->
+            <a href="https://map.naver.com/p/search/%EC%9A%A9%ED%8F%89%EB%A6%AC%EC%A1%B0%ED%8A%B8%20%EB%B8%94%EB%A6%AC%EC%8A%A4%ED%9E%90%EC%8A%A4%ED%85%8C%EC%9D%B4" target="_blank" class="btn-circle map" style="width: 36px; height: 36px;">🗺️</a>
+        </div>
+      </li>
       <li><span class="label">숙소 및 식당 (사전답사 완료)</span><span class="value" style="font-size: 14px; font-weight: 500;">샤워실/화장실 분리형 (6~7인 1실), 뷔페식 (HACCP 통과)</span></li>
       <li><span class="label">출발 안내 (1일차)</span><span class="value" style="color:var(--danger);">08:00 교실 집합 (출석 및 소지품 확인) → 09:00 출발</span></li>
     </ul>
@@ -213,15 +223,27 @@ footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text
     <div class="action-grid">
       <div class="action-card">
         <div class="info"><h4>[주간] 횡계의원</h4><p>5.9km / 10분 소요 (경미한 환자)</p></div>
-        <a href="tel:0333368052" class="btn-circle danger">📞</a>
+        <div class="btn-group">
+          <!-- 병원 지도 링크 추가 -->
+          <a href="https://map.naver.com/p/search/%ED%9A%A1%EA%B3%84%EC%9D%98%EC%9B%90" target="_blank" class="btn-circle map">🗺️</a>
+          <a href="tel:0333368052" class="btn-circle danger">📞</a>
+        </div>
       </div>
       <div class="action-card">
         <div class="info"><h4>[야간] 강릉동인병원</h4><p>45.2km / 45분 소요 (야간 응급)</p></div>
-        <a href="tel:0336516161" class="btn-circle danger">📞</a>
+        <div class="btn-group">
+          <!-- 병원 지도 링크 추가 -->
+          <a href="https://map.naver.com/p/search/%EA%B0%95%EB%A6%89%EB%8F%99%EC%9D%B8%EB%B3%91%EC%9B%90" target="_blank" class="btn-circle map">🗺️</a>
+          <a href="tel:0336516161" class="btn-circle danger">📞</a>
+        </div>
       </div>
       <div class="action-card">
         <div class="info"><h4>숙소 (블리스힐스테이)</h4><p>033-335-5757</p></div>
-        <a href="tel:0333355757" class="btn-circle">📞</a>
+        <div class="btn-group">
+          <!-- 숙소 전화 및 지도 버튼 -->
+          <a href="https://map.naver.com/p/search/%EC%9A%A9%ED%8F%89%EB%A6%AC%EC%A1%B0%ED%8A%B8%20%EB%B8%94%EB%A6%AC%EC%8A%A4%ED%9E%90%EC%8A%A4%ED%85%8C%EC%9D%B4" target="_blank" class="btn-circle map">🗺️</a>
+          <a href="tel:0333355757" class="btn-circle">📞</a>
+        </div>
       </div>
     </div>
   </div>
