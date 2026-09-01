@@ -4,423 +4,246 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>2026 한서고 1학년 수련회</title>
-<meta name="description" content="2026학년도 한서고등학교 1학년 수련회 안내">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
 <style>
-/* 라이트 모드 (기본) */
+/* iOS Style CSS Variables */
 :root {
-  --bg: #f9f9f9;
-  --surface: #ffffff;
-  --text-main: #111111;
-  --text-sub: #666666;
-  --border: #e0e0e0;
-  --btn-bg: #111111;
-  --btn-text: #ffffff;
-  --radius-sm: 18px;
-  --radius-md: 24px;
-  --radius-lg: 32px;
+  --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --text-main: #1d1d1f;
+  --text-sub: #86868b;
+  --accent: #007aff;
+  --danger: #ff3b30;
+  --radius-lg: 24px;
+  --radius-md: 18px;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
-/* 다크 모드 */
-[data-theme="dark"] {
-  --bg: #111111;
-  --surface: #1e1e1e;
-  --text-main: #ffffff;
-  --text-sub: #aaaaaa;
-  --border: #333333;
-  --btn-bg: #ffffff;
-  --btn-text: #111111;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body {
-  font-family: 'PretendardVariable', -apple-system, sans-serif;
-  background-color: var(--bg);
+  font-family: 'PretendardVariable', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
   color: var(--text-main);
-  line-height: 1.6;
-  transition: background-color 0.3s, color 0.3s;
+  line-height: 1.5;
   padding-bottom: 80px;
 }
-a { color: inherit; text-decoration: none; }
-ul { list-style: none; }
+body::before {
+  content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(0,122,255,0.05), transparent 60%),
+              radial-gradient(circle at 80% 20%, rgba(255,45,85,0.05), transparent 50%);
+  z-index: -1; pointer-events: none;
+}
 
-/* 공통 레이아웃 */
-.wrap { max-width: 768px; margin: 0 auto; padding: 0 20px; }
-.divider { height: 1px; background-color: var(--border); margin: 40px 0; }
+.wrap { max-width: 600px; margin: 0 auto; padding: 0 16px; }
 
-/* 헤더 & 테마 변경 토글 */
+/* Glassmorphism Header */
 header {
   position: sticky; top: 0; z-index: 50;
-  background-color: rgba(var(--bg-rgb), 0.8);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 16px 20px;
-  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 16px 20px; text-align: center;
 }
-.brand { font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 8px; }
-.theme-toggle {
-  background: var(--surface); border: 1px solid var(--border);
-  color: var(--text-main); font-size: 16px;
-  width: 44px; height: 44px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.2s;
+header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+
+/* Glassmorphism Cards */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 24px; margin-top: 20px;
+  box-shadow: var(--shadow);
 }
 
-/* 히어로 섹션 */
-.hero { padding: 50px 0 20px; text-align: left; }
-.hero h1 { font-size: clamp(32px, 8vw, 48px); font-weight: 900; line-height: 1.2; margin-bottom: 16px; }
-.hero p { font-size: 16px; color: var(--text-sub); }
+.section-title { font-size: 22px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px;}
 
-/* 정보 카드 (장소, 일정 등) */
-.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 30px; }
-.card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-md); padding: 24px;
-  transition: transform 0.2s;
+/* Info List */
+.info-list li { display: flex; flex-direction: column; margin-bottom: 12px; }
+.info-list li:last-child { margin-bottom: 0; }
+.info-list .label { font-size: 13px; color: var(--text-sub); font-weight: 600; margin-bottom: 2px; }
+.info-list .value { font-size: 16px; font-weight: 700; }
+
+/* iOS Segmented Control for Schedule */
+.segmented-control {
+  display: flex; background: rgba(118, 118, 128, 0.12);
+  border-radius: 9px; padding: 2px; margin-bottom: 20px;
 }
-.card .k { font-size: 13px; color: var(--text-sub); margin-bottom: 8px; font-weight: 600; }
-.card .v { font-size: 18px; font-weight: 800; }
-.card .v small { display: block; font-size: 14px; font-weight: 400; color: var(--text-sub); margin-top: 4px; }
-
-/* 공통 버튼 디자인 */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 14px 24px; border-radius: 99px; font-size: 15px; font-weight: 700;
-  background: var(--btn-bg); color: var(--btn-text); cursor: pointer; transition: opacity 0.2s;
+.segment-btn {
+  flex: 1; padding: 6px 0; text-align: center; font-size: 14px; font-weight: 600;
+  color: var(--text-main); border-radius: 7px; border: none; background: transparent;
+  cursor: pointer; transition: background 0.2s, box-shadow 0.2s;
 }
-.btn-outline {
-  background: transparent; border: 1px solid var(--border);
-  color: var(--text-main);
-}
-.btn:active { opacity: 0.7; }
-.btn-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.segment-btn.active { background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,0.12); }
 
-/* 섹션 타이틀 */
-.section-head { margin-bottom: 24px; }
-.section-head h2 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
-.section-head p { font-size: 15px; color: var(--text-sub); }
-
-/* 일정 탭 */
-.day-tabs { display: flex; gap: 10px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 10px; }
-.day-tabs::-webkit-scrollbar { display: none; }
-.day-tab {
-  flex-shrink: 0; padding: 12px 24px; border-radius: 99px;
-  background: var(--surface); border: 1px solid var(--border); color: var(--text-sub);
-  font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s;
-}
-.day-tab.active { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
-
-/* 타임라인 */
-.day-panel { display: none; animation: fadeIn 0.4s ease; }
+/* Timeline */
+.day-panel { display: none; animation: slideUp 0.3s ease; }
 .day-panel.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.t-item {
-  position: relative; padding: 20px 0 20px 24px; border-bottom: 1px solid var(--border);
+.timeline-item { display: flex; gap: 16px; margin-bottom: 20px; position: relative; }
+.timeline-item:last-child { margin-bottom: 0; }
+.timeline-item::after {
+  content: ''; position: absolute; left: 47px; top: 24px; bottom: -20px;
+  width: 1px; background: rgba(0,0,0,0.1);
 }
-.t-item:last-child { border-bottom: none; }
-.t-item::before {
-  content: ''; position: absolute; left: 0; top: 26px;
-  width: 10px; height: 10px; border-radius: 50%; background: var(--text-main);
-}
-.t-time { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
-.t-title { font-size: 17px; font-weight: 700; }
-.t-sub { font-size: 14px; color: var(--text-sub); margin-top: 4px; }
+.timeline-item:last-child::after { display: none; }
+.time { width: 45px; font-size: 14px; font-weight: 700; color: var(--accent); text-align: right; flex-shrink: 0; padding-top: 2px; }
+.content { flex: 1; background: rgba(255,255,255,0.5); padding: 12px 16px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); }
+.content h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.content p { font-size: 14px; color: var(--text-sub); }
 
-/* 준비물 체크리스트 */
-.check-list li {
-  display: flex; gap: 12px; padding: 12px 0; font-size: 15px; border-bottom: 1px dashed var(--border);
-}
-.check-list li:last-child { border-bottom: none; }
-.check-list li b { font-weight: 800; }
+/* Checklists */
+.check-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: 15px; }
+.check-item .icon { font-size: 18px; line-height: 1.2; }
+.check-item b { font-weight: 700; color: var(--text-main); }
+.check-item span { color: var(--text-sub); }
 
-/* 액티비티 카드 */
-.prog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-top: 20px; }
-.prog-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-md); padding: 20px; cursor: pointer;
+/* Action Buttons (Call / Map) */
+.action-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.action-card {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px; background: rgba(255,255,255,0.7);
+  border-radius: var(--radius-md); border: 1px solid var(--glass-border);
 }
-.prog-card h4 { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
-.prog-card p { font-size: 13px; color: var(--text-sub); }
+.action-card .info h4 { font-size: 16px; font-weight: 700; }
+.action-card .info p { font-size: 13px; color: var(--text-sub); margin-top: 2px; }
+.btn-circle {
+  width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background: var(--accent); color: #fff; text-decoration: none; font-size: 18px; box-shadow: 0 4px 10px rgba(0,122,255,0.3);
+}
+.btn-circle.danger { background: var(--danger); box-shadow: 0 4px 10px rgba(255,59,48,0.3); }
 
-/* 연락처 및 지도 카드 */
-.contact-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-md); padding: 20px; margin-bottom: 16px;
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
-}
-.contact-card .info .name { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
-.contact-card .info .num { font-size: 15px; color: var(--text-sub); }
-.action-btns { display: flex; gap: 10px; }
-.action-btn {
-  width: 50px; height: 50px; border-radius: 50%; background: var(--btn-bg); color: var(--btn-text);
-  display: flex; align-items: center; justify-content: center; font-size: 20px;
-}
-.action-btn.map { background: transparent; border: 2px solid var(--border); color: var(--text-main); }
-
-/* 모달 */
-.modal-backdrop {
-  position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.6);
-  display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none;
-  transition: opacity 0.3s; backdrop-filter: blur(4px);
-}
-.modal-backdrop.open { opacity: 1; pointer-events: auto; }
-.modal {
-  width: 100%; max-width: 600px; max-height: 85vh; overflow-y: auto;
-  background: var(--surface); border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  padding: 30px 24px; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.modal-backdrop.open .modal { transform: translateY(0); }
-.modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.modal-head h3 { font-size: 22px; font-weight: 800; }
-.modal-close {
-  width: 40px; height: 40px; border-radius: 50%; background: var(--border);
-  display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold;
-}
-.modal-body p { margin-bottom: 16px; font-size: 15px; color: var(--text-sub); }
-.modal-body b { color: var(--text-main); font-weight: 800; display: block; margin-bottom: 4px; }
-
-footer { text-align: center; padding: 40px 0; color: var(--text-sub); font-size: 14px; }
+footer { text-align: center; padding: 40px 0; font-size: 13px; color: var(--text-sub); }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="brand">한서고 수련회</div>
-  <button class="theme-toggle" id="themeToggle" aria-label="테마 변경">🌙</button>
+  <h1>2026 한서고 1학년 수련회</h1>
 </header>
 
 <main class="wrap">
-  <!-- 메인 정보 -->
-  <section class="hero">
-    <h1>1학년<br>수련회 안내</h1>
-    <p>2026. 09. 07(월) – 09. 09(수)<br>일정, 준비물, 안전정보를 확인하세요.</p>
+  <!-- 개요 정보 -->
+  <div class="glass-card">
+    <div class="section-title">📌 수련회 개요</div>
+    <ul class="info-list">
+      <li><span class="label">일시</span><span class="value">2026. 09. 07.(월) ~ 09. 09.(수) / 2박 3일</span></li>
+      <li><span class="label">장소</span><span class="value">용평리조트 블리스힐스테이<br><span style="font-size:13px; font-weight:500; color:var(--text-sub);">강원 평창군 대관령면 올림픽로 715</span></span></li>
+      <li><span class="label">숙소 및 식당 (사전답사 완료)</span><span class="value" style="font-size: 14px; font-weight: 500;">샤워실/화장실 분리형 (6~7인 1실), 뷔페식 (HACCP 통과)</span></li>
+      <li><span class="label">출발 안내 (1일차)</span><span class="value" style="color:var(--danger);">08:00 교실 집합 (출석 및 소지품 확인) → 09:00 출발</span></li>
+    </ul>
+  </div>
+
+  <!-- 세부 일정 -->
+  <div class="glass-card">
+    <div class="section-title">🗓 일별 프로그램</div>
     
-    <div class="info-grid">
-      <div class="card">
-        <div class="k">장소</div>
-        <div class="v">용평리조트 블리스힐스테이<small>강원도 평창군 대관령면</small></div>
-        <div class="btn-group">
-          <a class="btn btn-outline" style="font-size:13px; padding:8px 16px;" href="https://map.naver.com/p/search/%EC%9A%A9%ED%8F%89%EB%A6%AC%EC%A1%B0%ED%8A%B8%20%EB%B8%94%EB%A6%AC%EC%8A%A4%ED%9E%90%EC%8A%A4%ED%85%8C%EC%9D%B4" target="_blank">네이버지도</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="k">출발 집합</div>
-        <div class="v">08:00 교실<small>지각 금지, 소지품 확인</small></div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- 일정 -->
-  <section id="schedule">
-    <div class="section-head">
-      <h2>🗓 일정표</h2>
-      <p>기상 상황에 따라 프로그램이 조정될 수 있습니다.</p>
+    <div class="segmented-control">
+      <button class="segment-btn active" data-day="1">1일차</button>
+      <button class="segment-btn" data-day="2">2일차</button>
+      <button class="segment-btn" data-day="3">3일차</button>
     </div>
 
-    <div class="day-tabs">
-      <button class="day-tab active" data-day="1">1일차 (9/7)</button>
-      <button class="day-tab" data-day="2">2일차 (9/8)</button>
-      <button class="day-tab" data-day="3">3일차 (9/9)</button>
+    <!-- 1일차 -->
+    <div class="day-panel active" data-panel="1">
+      <div class="timeline-item"><div class="time">08:00</div><div class="content"><h4>학교에 집합</h4><p>교실 집합, 출석 및 소지품 확인</p></div></div>
+      <div class="timeline-item"><div class="time">09:00</div><div class="content"><h4>모나용평으로 출발</h4></div></div>
+      <div class="timeline-item"><div class="time">12:00</div><div class="content"><h4>점심식사 및 도착</h4></div></div>
+      <div class="timeline-item"><div class="time">13:00</div><div class="content"><h4>Program Orientation</h4><p>입소식, 안전교육, 소방대피훈련</p></div></div>
+      <div class="timeline-item"><div class="time">15:00</div><div class="content"><h4>[나]를 이해하는 시간</h4><p>Team Demonstration (공동체 활동)</p></div></div>
+      <div class="timeline-item"><div class="time">18:00</div><div class="content"><h4>저녁식사</h4></div></div>
+      <div class="timeline-item"><div class="time">19:00</div><div class="content"><h4>[모]여서 배우는 시간</h4><p>관계형성 프로그램 (실내)</p></div></div>
+      <div class="timeline-item"><div class="time">21:00</div><div class="content"><h4>개인위생 및 취침준비</h4></div></div>
+      <div class="timeline-item"><div class="time">22:00</div><div class="content"><h4>취침</h4></div></div>
     </div>
 
-    <div class="day-panel active" data-day-panel="1">
-      <div class="t-item"><div class="t-time">08:00</div><div class="t-title">학교 집합 및 출발</div></div>
-      <div class="t-item"><div class="t-time">12:00</div><div class="t-title">도착 및 점심식사</div></div>
-      <div class="t-item"><div class="t-time">13:00</div><div class="t-title">오리엔테이션 및 안전교육</div></div>
-      <div class="t-item"><div class="t-time">15:00</div><div class="t-title">공동체 활동 (팀빌딩)</div></div>
-      <div class="t-item"><div class="t-time">18:00</div><div class="t-title">저녁식사</div></div>
-      <div class="t-item"><div class="t-time">19:00</div><div class="t-title">관계형성 프로그램</div></div>
-      <div class="t-item"><div class="t-time">22:00</div><div class="t-title">취침</div></div>
+    <!-- 2일차 -->
+    <div class="day-panel" data-panel="2">
+      <div class="timeline-item"><div class="time">07:00</div><div class="content"><h4>기상 및 세면</h4></div></div>
+      <div class="timeline-item"><div class="time">08:00</div><div class="content"><h4>아침식사</h4></div></div>
+      <div class="timeline-item"><div class="time">09:00</div><div class="content"><h4>우리만의 수련활동</h4><p>미니 올림픽 (실내)</p></div></div>
+      <div class="timeline-item"><div class="time">12:00</div><div class="content"><h4>점심식사</h4></div></div>
+      <div class="timeline-item"><div class="time">14:00</div><div class="content"><h4>[용]기 내 도전하는 순간</h4><p>용평 루지, 사계절 썰매, 마운틴코스터 (실외)</p></div></div>
+      <div class="timeline-item"><div class="time">18:00</div><div class="content"><h4>저녁식사</h4></div></div>
+      <div class="timeline-item"><div class="time">19:00</div><div class="content"><h4>Spark Collective</h4><p>레크리에이션 및 장기자랑</p></div></div>
+      <div class="timeline-item"><div class="time">22:00</div><div class="content"><h4>취침</h4></div></div>
     </div>
 
-    <div class="day-panel" data-day-panel="2">
-      <div class="t-item"><div class="t-time">08:00</div><div class="t-title">아침식사</div></div>
-      <div class="t-item"><div class="t-time">09:00</div><div class="t-title">미니 올림픽</div></div>
-      <div class="t-item"><div class="t-time">12:00</div><div class="t-title">점심식사</div></div>
-      <div class="t-item">
-        <div class="t-time">14:00</div>
-        <div class="t-title">야외 액티비티 체험</div>
-        <div class="t-sub">용평 루지, 사계절 썰매 등</div>
-      </div>
-      <div class="t-item"><div class="t-time">18:00</div><div class="t-title">저녁식사</div></div>
-      <div class="t-item"><div class="t-time">19:00</div><div class="t-title">레크리에이션 및 장기자랑</div></div>
-      <div class="t-item"><div class="t-time">22:00</div><div class="t-title">취침</div></div>
+    <!-- 3일차 -->
+    <div class="day-panel" data-panel="3">
+      <div class="timeline-item"><div class="time">07:00</div><div class="content"><h4>기상 및 세면</h4></div></div>
+      <div class="timeline-item"><div class="time">08:00</div><div class="content"><h4>아침식사</h4></div></div>
+      <div class="timeline-item"><div class="time">09:00</div><div class="content"><h4>발왕산 서밋랜드</h4><p>케이블카, 스카이워크, 천년 주목길 관광</p></div></div>
+      <div class="timeline-item"><div class="time">12:00</div><div class="content"><h4>퇴소식 및 설문지 작성</h4></div></div>
+      <div class="timeline-item"><div class="time">13:00</div><div class="content"><h4>점심식사</h4></div></div>
+      <div class="timeline-item"><div class="time">14:00</div><div class="content"><h4>집으로 귀가</h4></div></div>
     </div>
-
-    <div class="day-panel" data-day-panel="3">
-      <div class="t-item"><div class="t-time">08:00</div><div class="t-title">아침식사</div></div>
-      <div class="t-item">
-        <div class="t-time">09:00</div>
-        <div class="t-title">발왕산 서밋랜드</div>
-        <div class="t-sub">케이블카, 스카이워크</div>
-      </div>
-      <div class="t-item"><div class="t-time">12:00</div><div class="t-title">퇴소식 및 점심식사</div></div>
-      <div class="t-item"><div class="t-time">13:00~</div><div class="t-title">집으로 귀가</div></div>
-    </div>
-
-    <div class="prog-grid">
-      <div class="prog-card" onclick="openModal('m-summit')">
-        <h4>⛰️ 서밋랜드 (발왕산)</h4>
-        <p>자세히 보기 →</p>
-      </div>
-      <div class="prog-card" onclick="openModal('m-luge')">
-        <h4>🛞 용평 루지</h4>
-        <p>자세히 보기 →</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
+  </div>
 
   <!-- 준비물 -->
-  <section id="prepare">
-    <div class="section-head">
-      <h2>🎒 준비물 안내</h2>
+  <div class="glass-card">
+    <div class="section-title">🎒 준비물 및 유의사항</div>
+    <div style="background: rgba(255,59,48,0.1); padding: 12px; border-radius: 12px; margin-bottom: 16px;">
+      <p style="font-size: 13px; color: var(--danger); font-weight: 600;">※ 숙소 내 냉장고 및 식수 온수 없음. 컵라면 등 조리식품 절대 불가.</p>
     </div>
     
-    <div class="card" style="margin-bottom: 20px;">
-      <h3 style="margin-bottom: 12px; font-weight:800;">필수 준비 품목</h3>
-      <ul class="check-list">
-        <li><b>세면 도구</b> 샴푸, 린스, 바디워시, 칫솔, 치약</li>
-        <li><b>수건</b> 숙소에서 제공하지 않을 수 있으므로 넉넉히 챙기세요.</li>
-        <li><b>의류</b> 긴팔·긴바지 (액티비티 필수), 잠옷, 여벌옷, 속옷, 양말</li>
-        <li><b>개인 상비약</b> 멀미약, 알러지약 등</li>
-      </ul>
-    </div>
-    
-    <div class="card">
-      <h3 style="margin-bottom: 12px; font-weight:800;">지참 금지 품목</h3>
-      <ul class="check-list">
-        <li>주류, 담배, 화투 등 학생 신분에 어긋나는 물품</li>
-        <li>고가의 전자기기 (분실 시 책임지지 않음)</li>
-      </ul>
-    </div>
-  </section>
+    <h4 style="margin-bottom: 12px; font-weight: 700;">✅ 필수 준비 품목</h4>
+    <div class="check-item"><span class="icon">💊</span><div><b>개인상비약</b><br><span>멀미약, 알러지약 등</span></div></div>
+    <div class="check-item"><span class="icon">👕</span><div><b>실외 활동복</b><br><span>루지 탑승 등 안전을 위한 긴팔, 긴바지 필수</span></div></div>
+    <div class="check-item"><span class="icon">🧻</span><div><b>세면도구 및 수건</b><br><span>샴푸, 린스, 바디워시, 칫솔, 치약, 수건 넉넉히</span></div></div>
+    <div class="check-item"><span class="icon">🧦</span><div><b>기타 의류</b><br><span>속옷, 양말, 잠옷, 방한복(바람막이), 여벌옷</span></div></div>
 
-  <div class="divider"></div>
+    <h4 style="margin-top: 20px; margin-bottom: 12px; font-weight: 700;">🚫 지참 금지 품목</h4>
+    <div class="check-item"><span class="icon">❌</span><div><b>고가 물품 및 위험 물품</b><br><span>에어팟, 태블릿, 노트북(분실 위험), 주류, 담배, 화투/카드(도박성), 커피포트</span></div></div>
+  </div>
 
-  <!-- 비상 연락망 및 안전 -->
-  <section id="contact">
-    <div class="section-head">
-      <h2>🚨 비상 연락 및 병원 지도</h2>
-      <p>버튼을 누르면 전화나 지도로 바로 연결됩니다.</p>
-    </div>
+  <!-- 비상 연락망 -->
+  <div class="glass-card">
+    <div class="section-title">🚨 응급 대처 및 연락망</div>
+    <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 16px;">
+      의무실 처치 후 병원 진료 필요시 담임 교사 동반 하에 이송됩니다.<br>
+      (단, 2일차 야간 응급 시 원내 지도 관계로 학부모 동행 필수)
+    </p>
 
-    <!-- 현지 병원 (지도 링크 추가) -->
-    <div class="contact-card">
-      <div class="info">
-        <div class="name">🏥 횡계의원 (경미한 외상)</div>
-        <div class="num">033-336-8052</div>
+    <div class="action-grid">
+      <div class="action-card">
+        <div class="info"><h4>[주간] 횡계의원</h4><p>5.9km / 10분 소요 (경미한 환자)</p></div>
+        <a href="tel:0333368052" class="btn-circle danger">📞</a>
       </div>
-      <div class="action-btns">
-        <a href="https://map.naver.com/p/search/%ED%9A%A1%EA%B3%84%EC%9D%98%EC%9B%90" target="_blank" class="action-btn map" aria-label="지도">🗺️</a>
-        <a href="tel:0333368052" class="action-btn" aria-label="전화">📞</a>
+      <div class="action-card">
+        <div class="info"><h4>[야간] 강릉동인병원</h4><p>45.2km / 45분 소요 (야간 응급)</p></div>
+        <a href="tel:0336516161" class="btn-circle danger">📞</a>
       </div>
-    </div>
-
-    <div class="contact-card">
-      <div class="info">
-        <div class="name">🏥 강릉동인병원 (응급·야간)</div>
-        <div class="num">033-651-6161</div>
-      </div>
-      <div class="action-btns">
-        <a href="https://map.naver.com/p/search/%EA%B0%95%EB%A6%89%EB%8F%99%EC%9D%B8%EB%B3%91%EC%9B%90" target="_blank" class="action-btn map" aria-label="지도">🗺️</a>
-        <a href="tel:0336516161" class="action-btn" aria-label="전화">📞</a>
+      <div class="action-card">
+        <div class="info"><h4>숙소 (블리스힐스테이)</h4><p>033-335-5757</p></div>
+        <a href="tel:0333355757" class="btn-circle">📞</a>
       </div>
     </div>
-
-    <!-- 학교 연락처 -->
-    <div class="contact-card">
-      <div class="info">
-        <div class="name">🏫 한서고 교무실</div>
-        <div class="num">02-2662-0021</div>
-      </div>
-      <div class="action-btns">
-        <a href="tel:0226620021" class="action-btn" aria-label="전화">📞</a>
-      </div>
-    </div>
-  </section>
+  </div>
 
   <footer>
-    <p>2026학년도 한서고등학교</p>
+    <p>2026학년도 한서고등학교장 발행<br>한서 제 26-124호 (2026. 8. 31.)</p>
   </footer>
 </main>
 
-<!-- 모달 레이어 -->
-<div class="modal-backdrop" id="m-summit">
-  <div class="modal">
-    <div class="modal-head">
-      <h3>발왕산 서밋랜드</h3>
-      <div class="modal-close" onclick="closeModal('m-summit')">✕</div>
-    </div>
-    <div class="modal-body">
-      <p><b>발왕산 스카이워크</b><br>우리나라에서 가장 높은 곳에 세워진 스카이워크입니다.</p>
-      <p><b>관광케이블카</b><br>왕복 7.4km, 최장 길이의 케이블카로 대자연을 즐길 수 있습니다.</p>
-    </div>
-  </div>
-</div>
-
-<div class="modal-backdrop" id="m-luge">
-  <div class="modal">
-    <div class="modal-head">
-      <h3>용평 루지 체험</h3>
-      <div class="modal-close" onclick="closeModal('m-luge')">✕</div>
-    </div>
-    <div class="modal-body">
-      <p><b>루지 (Luge)</b><br>1,458m 코스를 카트를 타고 질주하는 짜릿한 액티비티입니다. 긴팔과 긴바지 착용이 필수입니다.</p>
-    </div>
-  </div>
-</div>
-
 <script>
-// 테마 토글 로직
-const themeBtn = document.getElementById('themeToggle');
-// 로컬 스토리지에서 이전 테마 불러오기
-const currentTheme = localStorage.getItem('theme') || 'light';
-if (currentTheme === 'dark') {
-  document.documentElement.setAttribute('data-theme', 'dark');
-  themeBtn.innerText = '☀️';
-}
+  const btns = document.querySelectorAll('.segment-btn');
+  const panels = document.querySelectorAll('.day-panel');
 
-themeBtn.addEventListener('click', () => {
-  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  if (isDark) {
-    document.documentElement.removeAttribute('data-theme');
-    themeBtn.innerText = '🌙';
-    localStorage.setItem('theme', 'light');
-  } else {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    themeBtn.innerText = '☀️';
-    localStorage.setItem('theme', 'dark');
-  }
-});
-
-// 탭 로직
-document.querySelectorAll('.day-tab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelector(`.day-panel[data-day-panel="${btn.dataset.day}"]`).classList.add('active');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      
+      btn.classList.add('active');
+      document.querySelector(`.day-panel[data-panel="${btn.dataset.day}"]`).classList.add('active');
+    });
   });
-});
-
-// 모달 로직
-function openModal(id) {
-  document.getElementById(id).classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.querySelectorAll('.modal-backdrop').forEach(bd => {
-  bd.addEventListener('click', e => { if (e.target === bd) closeModal(bd.id); });
-});
 </script>
 </body>
 </html>
